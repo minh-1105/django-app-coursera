@@ -1,0 +1,36 @@
+{% extends 'onlinecourse/base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h1 class="h3 mb-0">Courses</h1>
+    </div>
+
+    <div class="row g-3">
+        {% for course in courses %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="h5 card-title">{{ course.name }}</h2>
+                        <p class="card-text">{{ course.description }}</p>
+                        <a
+                            class="btn btn-primary"
+                            href="{% url 'onlinecourse:course_details' course.id %}"
+                        >
+                            View course
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    No courses yet. Add courses from the admin page.
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
