@@ -1,0 +1,66 @@
+{% extends 'onlinecourse/base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h2>Congratulations!</h2>
+        </div>
+
+        <div class="card-body">
+            <h4>Exam Result for {{ course.name }}</h4>
+
+            <p>
+                <strong>Your Score:</strong>
+                {{ score }} / {{ total_score }}
+            </p>
+
+            <p>
+                <strong>Grade:</strong>
+                {{ grade }}%
+            </p>
+
+            <hr>
+
+            <h5>Selected Answers</h5>
+
+            {% for question in course.question_set.all %}
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <strong>Question {{ forloop.counter }}:</strong>
+                        {{ question.content }}
+                    </div>
+
+                    <div class="card-body">
+                        {% for choice in question.choices.all %}
+                            <div class="form-check">
+                                {% if choice in selected_choices %}
+                                    <input class="form-check-input" type="checkbox" checked disabled>
+                                {% else %}
+                                    <input class="form-check-input" type="checkbox" disabled>
+                                {% endif %}
+
+                                <label class="form-check-label">
+                                    {{ choice.content }}
+
+                                    {% if choice.is_correct %}
+                                        <span class="badge bg-success">Correct Answer</span>
+                                    {% endif %}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+
+            <a href="{% url 'onlinecourse:course_details' course.id %}" class="btn btn-primary">
+                Back to Course
+            </a>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
